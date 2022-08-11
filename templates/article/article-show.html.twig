@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<div >
+    <h1>{{ article.getTitle() }}</h1>
+
+    {{ article.afficherArticle() }}
+    
+</div>
+{% endblock %}

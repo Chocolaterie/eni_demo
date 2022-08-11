@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{# Encodage du site UTF8 #}
+		<meta charset="UTF-8">
+
+			{# Pour le responsive #}
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+
+			{# Favicon (fonction asset pour récuperer des ressources du site dans le dossier public) #}
+			<link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}">
+
+			<title>
+				{# Block Title (à surcharger dans chaque page) #}
+				{% block title %}Welcome!{% endblock %}
+			</title>
+			{# Run `composer require symfony/webpack-encore-bundle`
+							           and uncomment the following Encore helpers to start using Symfony UX #}
+
+			{# Google Font CSS #}
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+			<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet"> 
+			
+			{# CSS BOSTRAP CSS #}
+			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+			
+			{# CSS #}
+			<link href="{{ asset('assets/css/main-style.css') }}" rel="stylesheet"/>
+
+			{% block stylesheets %}
+				{#{{ encore_entry_link_tags('app') }}#}
+			{% endblock %}
+
+			{% block javascripts %}
+				{#{{ encore_entry_script_tags('app') }}#}
+			{% endblock %}
+		</head>
+		<body>
+			{# Header - Navbar boostrap #}
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="#">Eni Demo</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								{# fonction path twig = pointer sur la route associé à une url #}
+								<a class="nav-link active" aria-current="page" href="{{ path("app_home") }}">Home</a>
+							</li>
+						</ul>
+						<form class="d-flex">
+							<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+							<button class="btn btn-outline-success" type="submit">Search</button>
+						</form>
+					</div>
+				</div>
+			</nav>
+
+			{# Milieu #}
+			<div class="enidemo-content">
+				{# Ligne avec Logo et titre #}
+				<div class="row">
+
+					{# Col Image - les col son divisé par 12 donc 1(/12)#}
+					<div class="col-1">
+						{# Encapsulé d'un div #}
+						<div>
+							{# Taille width:100% car image automatique ratio à la hauteur et au parent #}
+							<img src="{{ asset('assets/img/logo-512.png') }}" style="width: 100%">
+						</div>
+					</div>
+
+					{# Col Titre - col sans prefix numeroté = prend la place restante en nombre de colonne restante #}
+					<div class="col">
+						<h1>Eni Demo</h1>
+					</div>
+				</div>
+
+				{# Block Body (à surcharger dans chaque page) #}
+				{% block body %}{% endblock %}
+			</div>
+
+			{# Footer #}
+			<div class="enidemo-footer">
+				©Bucket-List - Copyright 2022
+			</div>
+		</body>
+	</head>
+</html>

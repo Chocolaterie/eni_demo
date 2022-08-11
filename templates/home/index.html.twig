@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{# Creer variable pizza ananas #}
+{% set food = "Pizza Ananas" %}
+
+{# Tableau mauvaises nourritures #}
+{% set products = ["beurre sucré", "pizza ananas", "crevette au nutella", "pinte heineken"] %}
+
+{% set user = {
+    'name' : 'GERARD LE DEV JS',
+    'age' : 66,
+    'alcoholic' : true,
+    'fou' : true,
+}
+ %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>Hello </h1>
+
+    <a href="{{ path('app_home') }}">Lien test <a/>
+
+    This friendly message is coming from : {{ food }}
+
+    {# Afficher contenu du tableau à la case 3 donc index 2 #}
+    <p>Tableau Index 2: {{ products[2] }}</p>
+
+    {# Afficher chaque element du tableau #}
+    <ul>
+    {% for product in products %}
+        <li>{{ product }}</li>
+    {% endfor %}
+    </ul>
+
+    {# Afficher l'user #}
+    <div>
+        <ul>
+            <li>Nom: {{ user.name}}</li>
+            <li>Age: {{ user.age }}</li>
+            {# Si est fou  #}
+            {% if user.fou %}
+            <li>JE SUIS FOU PARCEQUE JE FAIS DU JS</li>
+            {% endif %}
+            {# Si est alcolique #}
+            {% if user.alcoholic %}
+            <li>3 PINTES !</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+<div>
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</div>
+{% endblock %}
