@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Person; // importer l'entité
 use App\Entity\Article; // importer l'entité
@@ -110,14 +111,41 @@ class HomeController extends AbstractController
     /**
      * @Route("/product-form/", name="app_product_form")
      */
-    public function showProductForm(): Response
+    public function showProductForm(Request $request): Response
     {
+        // Part : 01
         // Article vide
         $product =  new Article();
 
         // Instancie le formulaire ArticleType avec un article vide
         $articleForm = $this->createForm(ArticleType::class, $product);
 
+        // Part : 02
+        // Ecouter la requette http 
+        $articleForm->handleRequest($request);
+
+         // Part : 03
+        // --Tester si le form à des données envoyées
+        if ($articleForm->isSubmitted() && $articleForm->isValid()){
+            // Traitement
+            // -- récuperer l'entité du formumlaire
+            $productToSave = $articleForm->getData();
+
+            // -- partie base de données
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($productToSave);
+            $em->flush();
+
+            // version simple
+            // $this->addFlash("message_success", "L'article à été crée avec succèes");
+            // version string format
+            $this->addFlash("message_success", sprintf("L'article %s à été crée avec succèes", $productToSave->getTitle()));
+
+            // Redirection sur home
+            return $this->redirectToRoute("app_home");
+        }
+
+        // -- Sinon juste afficherr le formualaire vide par défaut (premiere fois)
         // Retourner le rendu
         return $this->render('article/article-form.html.twig', [
             "articleForm" => $articleForm->createView()

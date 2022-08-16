@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,6 +19,7 @@ class Article
     private $id;
 
     /**
+     * @Assert\NotBlank(message="T'es bête ?")
      * @ORM\Column(type="string", length=255)
      */
     private $title;

@@ -22,9 +22,9 @@
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 			<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet"> 
 			
-			{# CSS BOSTRAP CSS #}
-			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-			
+			<!-- UIkit CSS -->
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.3/dist/css/uikit.min.css" />
+
 			{# CSS #}
 			<link href="{{ asset('assets/css/main-style.css') }}" rel="stylesheet"/>
 
@@ -37,56 +37,115 @@
 			{% endblock %}
 		</head>
 		<body>
-			{# Header - Navbar boostrap #}
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="container-fluid">
-					<a class="navbar-brand" href="#">Eni Demo</a>
-					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-							<li class="nav-item">
-								{# fonction path twig = pointer sur la route associé à une url #}
-								<a class="nav-link active" aria-current="page" href="{{ path("app_home") }}">Home</a>
+		<!--HEADER-->
+		<header id="header" style="background-color: #fff;" data-uk-sticky="show-on-up: true; animation: uk-animation-fade; media: @l">
+			<div class="uk-container">
+				<nav id="navbar" data-uk-navbar="mode: click;">
+					<div class="uk-navbar-left nav-overlay uk-visible@m">
+						<ul class="uk-navbar-nav">
+							<li>
+								<a href="#" title="Subscribe">Subscribe</a>
+							</li>
+							<li>
+								<a href="#" title="Sign Up">Sign Up</a>
 							</li>
 						</ul>
-						<form class="d-flex">
-							<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-							<button class="btn btn-outline-success" type="submit">Search</button>
-						</form>
 					</div>
-				</div>
-			</nav>
-
-			{# Milieu #}
-			<div class="enidemo-content">
-				{# Ligne avec Logo et titre #}
-				<div class="row">
-
-					{# Col Image - les col son divisé par 12 donc 1(/12)#}
-					<div class="col-1">
-						{# Encapsulé d'un div #}
-						<div>
-							{# Taille width:100% car image automatique ratio à la hauteur et au parent #}
-							<img src="{{ asset('assets/img/logo-512.png') }}" style="width: 100%">
+					<div class="uk-navbar-center nav-overlay">
+						<a class="uk-navbar-item uk-logo" href="#" title="Logo"><img src="img/n-logo.png" alt="Logo"></a>
+					</div>
+					<div class="uk-navbar-right nav-overlay">
+						<a class="uk-navbar-toggle uk-visible@m" data-uk-search-icon data-uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+						<div class="uk-navbar-item">
+							<a class="uk-visible@s" style="margin-right: 4px" href="#" data-uk-icon="facebook"></a>
+							<a class="uk-visible@s" style="margin-right: 4px" href="#" data-uk-icon="twitter"></a>
+							<a class="uk-visible@s" style="margin-right: 4px" href="#" data-uk-icon="instagram"></a>
+							<a class="uk-navbar-toggle uk-hidden@m" data-uk-toggle data-uk-navbar-toggle-icon href="#offcanvas-nav"></a>
 						</div>
+						
 					</div>
+					<div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+						<div class="uk-navbar-item uk-width-expand">
+							<form class="uk-search uk-search-navbar uk-width-1-1">
+								<input class="uk-search-input" type="search" placeholder="Search...">
+							</form>
+						</div>
+						<a class="uk-navbar-toggle" data-uk-close data-uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+					</div>
+				</nav>
+			</div>
+		</header>
+		<!--/HEADER-->
+		<!-- NAVIGATION -->
+		<div class="uk-container">
+			<nav class="nav-scroll">
+				<ul class="uk-subnav uk-flex uk-flex-between uk-flex-nowrap">
+					<li class="uk-active"><a href="#">World</a></li>
+					<li><a href="#">Politics</a></li>
+					<li><a href="#">Technology</a></li>
+					<li><a href="#">Trends</a></li>
+					<li><a href="#">Social Media</a></li>
+					<li><a href="#">People</a></li>
+					<li><a href="#">Science</a></li>
+					<li><a href="#">Opinion</a></li>
+					<li><a href="#">Culture</a></li>
+					<li><a href="#">Community</a></li>
+				</ul>
+			</nav>
+		</div>
+		<!-- /NAVIGATION -->
 
-					{# Col Titre - col sans prefix numeroté = prend la place restante en nombre de colonne restante #}
-					<div class="col">
-						<h1>Eni Demo</h1>
-					</div>
+		<!--/CONTENT-->
+		<div class="uk-container" style="min-height: 400px">
+			{# Flash message #}
+			<div>
+			{% for label, values in app.flashes %}
+				{% for message in values %}
+				<div class="uk-alert-primary" uk-alert>
+					<a class="uk-alert-close" uk-close></a>
+					<p>{{ message }}</p>
 				</div>
-
-				{# Block Body (à surcharger dans chaque page) #}
-				{% block body %}{% endblock %}
+				{% endfor %}
+			{% endfor %}
 			</div>
 
-			{# Footer #}
-			<div class="enidemo-footer">
-				©Bucket-List - Copyright 2022
+			{% block body %}{% endblock %}
+		</div>
+		
+		<!--FOOTER-->
+		<footer class="uk-section uk-section-small uk-section-muted">
+			<div class="uk-container">
+				<p class="uk-text-small uk-text-center">Copyright 2019 - <a href="https://github.com/zzseba78/Kick-Off">Created by KickOff</a> | Built with <a href="http://getuikit.com" title="Visit UIkit 3 site" target="_blank" data-uk-tooltip><span data-uk-icon="uikit"></span></a></p>
 			</div>
+		</footer>
+		<!--/FOOTER-->
+		<!-- OFFCANVAS -->
+		<div id="offcanvas-nav" data-uk-offcanvas="flip: true; overlay: true">
+			<div class="uk-offcanvas-bar uk-offcanvas-bar-animation uk-offcanvas-slide">
+				<button class="uk-offcanvas-close uk-close" type="button" data-uk-close></button>
+				<ul class="uk-nav uk-nav-default">
+					<li class="uk-active"><a href="#">Active</a></li>
+					<li class="uk-parent">
+						<a href="#">Parent</a>
+						<ul class="uk-nav-sub">
+							<li><a href="#">Sub item</a></li>
+							<li><a href="#">Sub item</a></li>
+						</ul>
+					</li>
+					<li class="uk-nav-header">Header</li>
+					<li><a href="#js-options"><span class="uk-margin-small-right" data-uk-icon="icon: table"></span> Item</a></li>
+					<li><a href="#"><span class="uk-margin-small-right" data-uk-icon="icon: thumbnails"></span> Item</a></li>
+					<li class="uk-nav-divider"></li>
+					<li><a href="#"><span class="uk-margin-small-right" data-uk-icon="icon: trash"></span> Item</a></li>
+				</ul>
+				<h3>Title</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+			</div>
+		</div>
+		<!-- /OFFCANVAS -->
+
+			<!-- UIkit JS -->
+			<script src="https://cdn.jsdelivr.net/npm/uikit@3.15.3/dist/js/uikit.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/uikit@3.15.3/dist/js/uikit-icons.min.js"></script>
 		</body>
-	</head>
 </html>
