@@ -124,10 +124,12 @@ class HomeController extends AbstractController
         // Ecouter la requette http 
         $articleForm->handleRequest($request);
 
-         // Part : 03
+        // Part : 03
         // --Tester si le form à des données envoyées
         if ($articleForm->isSubmitted() && $articleForm->isValid()){
             // Traitement
+
+       
             // -- récuperer l'entité du formumlaire
             $productToSave = $articleForm->getData();
 
@@ -139,7 +141,9 @@ class HomeController extends AbstractController
             // version simple
             // $this->addFlash("message_success", "L'article à été crée avec succèes");
             // version string format
-            $this->addFlash("message_success", sprintf("L'article %s à été crée avec succèes", $productToSave->getTitle()));
+            $this->addFlash("message_success", sprintf("L'article %s à été crée avec succès", $productToSave->getTitle()));
+            
+            dd($request);
 
             // Redirection sur home
             return $this->redirectToRoute("app_home");
@@ -150,5 +154,6 @@ class HomeController extends AbstractController
         return $this->render('article/article-form.html.twig', [
             "articleForm" => $articleForm->createView()
         ]);
+
     }
 }
