@@ -7,7 +7,9 @@
     <h1>Hello </h1>
 
     {% for article in article_list %}
-        <li>{{ article.afficherArticle() }}</li>
+        <li>
+            <a href="{{ path('app_product', { "id" : article.id}) }}">{{ article.afficherArticle() }}</a>  
+        </li>
     {% endfor %}
     
 </div>

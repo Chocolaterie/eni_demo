@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Person; // importer l'entité
 use App\Entity\Article; // importer l'entité
+use App\Form\ArticleType; // importer formulaire
 
 class HomeController extends AbstractController
 {
@@ -103,6 +104,23 @@ class HomeController extends AbstractController
         
         return $this->render('article/article.html.twig', [
             "article_list" => $articleList,
+        ]);
+    }
+
+    /**
+     * @Route("/product-form/", name="app_product_form")
+     */
+    public function showProductForm(): Response
+    {
+        // Article vide
+        $product =  new Article();
+
+        // Instancie le formulaire ArticleType avec un article vide
+        $articleForm = $this->createForm(ArticleType::class, $product);
+
+        // Retourner le rendu
+        return $this->render('article/article-form.html.twig', [
+            "articleForm" => $articleForm->createView()
         ]);
     }
 }
