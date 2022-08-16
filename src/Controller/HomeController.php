@@ -142,8 +142,6 @@ class HomeController extends AbstractController
             // $this->addFlash("message_success", "L'article à été crée avec succèes");
             // version string format
             $this->addFlash("message_success", sprintf("L'article %s à été crée avec succès", $productToSave->getTitle()));
-            
-            dd($request);
 
             // Redirection sur home
             return $this->redirectToRoute("app_home");
