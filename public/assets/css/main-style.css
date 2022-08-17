@@ -12,3 +12,14 @@ body * {
     color: #FFF;
     text-align: center;
 }
+
+.eni-comment-wrapper{
+    padding: 1rem 0;
+}
+
+
+.eni-comment-wrapper .uk-comment{
+    background-color: #eee;
+    padding: 1rem;
+}
+

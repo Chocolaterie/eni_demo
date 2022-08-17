@@ -8,10 +8,31 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Person; // importer l'entité
 use App\Entity\Article; // importer l'entité
-use App\Form\ArticleType; // importer formulaire
+use App\Entity\Comment; // importer l'entité
+use App\Form\ArticleType; // importer formulaire article
+use App\Form\CommentType; // importer formulaire commentaire
 
 class HomeController extends AbstractController
 {
+    /**
+     * Code exemple pour creer un commentair dans un article
+     */
+    public function exempleCreerCommentaireAssocieArticle(){
+        // Je récupere un article 
+        $id = 2; // Article "2" par exemple
+        $article = $repoArticle->find($id);
+    
+        // Creer un commentaire
+        $comment = new Comment();
+        $comment->setMessage("On dit pain au chocolat");
+        $comment->setArticle($article); // Associer le commentaire à l'article
+
+        // -- persister en base
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($comment);
+        $em->flush();
+    }
+
     /**
      * @Route("/", name="app_index")
      */
@@ -79,18 +100,62 @@ class HomeController extends AbstractController
     /**
      * @Route("/product/{id}", name="app_product")
      */
-    public function productDetail($id): Response
+    public function productDetail($id, Request $request): Response
     {
         // Repo Article
         $repoArticle = $this->getDoctrine()->getRepository(Article::class); // Récuperer l'entity manager doctrine
         
-        // Je récupere un article 
+        // Récupérer l'article
         $article = $repoArticle->find($id);
-        
+
+        // Creer le form comment avec l'action surchargé
+        $commentForm = $this->createForm(CommentType::class, new Comment(),  ["action" => $this->generateUrl('app_create_comment',[ "idArticle" => $article->getId() ])]);
+        $commentForm->handleRequest($request);
+
+        // Afficher la vue
         return $this->render('article/article-show.html.twig', [
             "article" => $article,
+            "commentForm" => $commentForm->createView()
         ]);
     }
+
+      /**
+     * @Route("/create-comment/{idArticle}", name="app_create_comment")
+     */
+    public function insertComment($idArticle, Request $request): Response
+    {
+        // Creer le form comment
+        $commentForm = $this->createForm(CommentType::class, new Comment());
+        $commentForm->handleRequest($request);
+
+        // Part : 03
+        // --Tester si le form à des données envoyées
+        if ($commentForm->isSubmitted() && $commentForm->isValid()){
+            // Traitement
+            // -- récuperer l'entité du formumlaire
+            $comment = $commentForm->getData();
+
+            // -- Associer l'article au commentaire
+            $repoArticle = $this->getDoctrine()->getRepository(Article::class);
+            $article = $repoArticle->find($idArticle);
+
+            $comment->setArticle($article); 
+
+            // -- partie base de données
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            // version string format
+            $this->addFlash("message_success", "Commentaire envoyé avec succès !");
+
+            // Redirection sur la page de l'article
+            return $this->redirectToRoute("app_product", ["id" => $idArticle]);
+        }
+
+        return $this->redirectToRoute("app_product", ["id" => $idArticle, "request" => $request], 307);
+    }
+
 
     /**
      * @Route("/product-list/", name="app_product_list")
