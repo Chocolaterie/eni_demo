@@ -19,7 +19,7 @@ class Article
     private $id;
 
     /**
-     * @Assert\NotBlank(message="T'es bête ?")
+     * @Assert\NotBlank(message="Le titre doit être renseigné")
      * @ORM\Column(type="string", length=255)
      */
     private $title;
@@ -28,7 +28,7 @@ class Article
      * @ORM\Column(type="string", length=255)
      */
     private $description;
-    
+
     public function getId(): ?int
     {
         return $this->id;

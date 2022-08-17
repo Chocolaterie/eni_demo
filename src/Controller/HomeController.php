@@ -128,10 +128,11 @@ class HomeController extends AbstractController
         // --Tester si le form à des données envoyées
         if ($articleForm->isSubmitted() && $articleForm->isValid()){
             // Traitement
-
-       
             // -- récuperer l'entité du formumlaire
             $productToSave = $articleForm->getData();
+
+            // -- custom
+            $productToSave->SetDateCreated(new DateTime());
 
             // -- partie base de données
             $em = $this->getDoctrine()->getManager();
