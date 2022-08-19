@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!
+{% block title %}
+Article
 {% endblock %}
 
 {% block body %}
@@ -10,6 +11,7 @@
 		{{ article.afficherArticle() }}
 
 		<h2>Commentaires</h2>
+		
         {# Comment form #}
         {{ form(commentForm) }}
         

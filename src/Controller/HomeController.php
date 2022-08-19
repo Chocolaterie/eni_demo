@@ -5,7 +5,10 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Person; // importer l'entité
 use App\Entity\Article; // importer l'entité
 use App\Entity\Comment; // importer l'entité
@@ -61,7 +64,6 @@ class HomeController extends AbstractController
         $repoPerson = $this->getDoctrine()->getRepository(Person::class); // Récuperer l'entity manager doctrine
         // Je récupere une personne 
         $person = $repoPerson->find($id);
-
 
         // Repo Article
         $repoArticle = $this->getDoctrine()->getRepository(Article::class); // Récuperer l'entity manager doctrine
@@ -219,5 +221,31 @@ class HomeController extends AbstractController
             "articleForm" => $articleForm->createView()
         ]);
 
+    }
+
+      /**
+     * @Route("/product-list-api/", name="app_product_list_api")
+     */
+    public function productListAPI(): Response
+    {
+        // Repo Article
+        $repoArticle = $this->getDoctrine()->getRepository(Article::class); // Récuperer l'entity manager doctrine
+        
+        // Je récupere un article 
+        $articleList = $repoArticle->findAll();
+        
+        return new JsonResponse($articleList);
+
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/admin/home", name="app_home_admin")
+     */
+    public function homeAdmin(): Response
+    {
+        
+        // je force la redirection sur la route app_home
+        return new Response("Je suis dans la page admin");
     }
 }

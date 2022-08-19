@@ -12,7 +12,7 @@
 
 			<title>
 				{# Block Title (à surcharger dans chaque page) #}
-				{% block title %}Welcome!{% endblock %}
+				{% block title %}EniSite {% endblock %}
 			</title>
 			{# Run `composer require symfony/webpack-encore-bundle`
 							           and uncomment the following Encore helpers to start using Symfony UX #}
@@ -24,7 +24,7 @@
 			
 			<!-- UIkit CSS -->
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.3/dist/css/uikit.min.css" />
-
+			
 			{# CSS #}
 			<link href="{{ asset('assets/css/main-style.css') }}" rel="stylesheet"/>
 
@@ -43,12 +43,22 @@
 				<nav id="navbar" data-uk-navbar="mode: click;">
 					<div class="uk-navbar-left nav-overlay uk-visible@m">
 						<ul class="uk-navbar-nav">
-							<li>
-								<a href="#" title="Subscribe">Subscribe</a>
+						{% if app.user %}
+							<li style="line-height: 5.1;">
+								Bonjour {{ app.user.username }}
+
 							</li>
 							<li>
-								<a href="#" title="Sign Up">Sign Up</a>
+								<a href="{{ path("app_logout") }}" title="Subscribe">Logout</a>
 							</li>
+						{% else %}
+							<li>
+								<a href="{{ path("app_login") }}" title="Sign Up">Login</a>
+							</li>
+							<li>
+								<a href="{{ path("app_register") }}" title="Sign Up">Register</a>
+							</li>
+						{% endif %}
 						</ul>
 					</div>
 					<div class="uk-navbar-center nav-overlay">
@@ -82,14 +92,6 @@
 				<ul class="uk-subnav uk-flex uk-flex-between uk-flex-nowrap">
 					<li class="uk-active"><a href="#">World</a></li>
 					<li><a href="#">Politics</a></li>
-					<li><a href="#">Technology</a></li>
-					<li><a href="#">Trends</a></li>
-					<li><a href="#">Social Media</a></li>
-					<li><a href="#">People</a></li>
-					<li><a href="#">Science</a></li>
-					<li><a href="#">Opinion</a></li>
-					<li><a href="#">Culture</a></li>
-					<li><a href="#">Community</a></li>
 				</ul>
 			</nav>
 		</div>

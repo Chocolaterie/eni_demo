@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
-class Article
+class Article implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -27,6 +27,7 @@ class Article
     private $title;
 
     /**
+     * @Assert\NotBlank(message="La description doit être renseigné")
      * @ORM\Column(type="string", length=255)
      */
     private $description;
@@ -109,5 +110,13 @@ class Article
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+            'id' => $this->id,
+            'title'=> $this->title,
+        );
     }
 }
